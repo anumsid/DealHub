@@ -1,5 +1,5 @@
 class Api::V1::CommentsController < ApplicationController
-  before_action :find_comment, only: [:update, :show]
+  before_action :find_token, only: [:create, :update]
 
   def index
     @comments = Comment.all
@@ -7,11 +7,12 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def show
-    @comment
+    @comment = Comment.find(params[:id])
     render json: @comment
   end
 
   def update
+    @comment = Comment.find(params[:id])
     @comment.update(comment_params)
     if @comment.save
       render json: @comment, status: :accepted
@@ -32,11 +33,7 @@ class Api::V1::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.permit(:user_id, :deal_id, :content)
-  end
-
-  def find_comment
-    @comment = Comment.find(params[:id])
+    params.permit(:deal_id, :content).merge(user_id: @current_user.id)
   end
 
 end

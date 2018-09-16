@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :comments, only: [:index, :update, :create, :show]
-      resources :votes, only: [:index, :update]
+      resources :votes, only: [:index, :show, :update, :create]
       resources :deals, only: [:index, :update, :show, :create]
-      resources :users, only: [:index, :create, :update]
+      resources :users, only: [:index, :create, :update, :show]
+      resources :sessions, only: [:index, :create, :show]
     end
   end
-
 end

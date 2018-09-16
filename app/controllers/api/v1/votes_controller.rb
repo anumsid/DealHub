@@ -1,27 +1,29 @@
 class Api::V1::VotesController < ApplicationController
-before_action :find_vote, only: [:update]
+  before_action :find_token, only: [:create, :update]
+
   def index
-    @deals = Deal.all
-    render json: @deals
+    @votes = Vote.all
+    render json: @votes
   end
 
-  def update
-    @deal.update(vote_params)
-    if @deal.save
-      render json: @deal, status: :accepted
+  def show
+    @votes = Vote.where(deal_id: params[:id])
+    render json: @votes
+  end
+
+  def create
+    @vote = Vote.new(vote_params)
+    if @vote.save
+      render json: @vote, status: :accepted
     else
-      render json: { errors: @deal.errors.full_messages }, status: :unprocessible_entity
+      render json: { errors: @vote.errors.full_messages }, status: :unprocessible_entity
     end
   end
 
   private
 
   def vote_params
-    params.permit(:team_id)
-  end
-
-  def find_vote
-    @deal = Deal.find(params[:id])
+    params.permit(:deal_id).merge(user_id: @current_user.id)
   end
 
 end
