@@ -10,7 +10,7 @@ class Api::V1::SessionsController < ApplicationController
         render json: { errors: session.errors.full_messages }, status: :unprocessible_entity
       end
     else
-      render json: { error: "Invalid username or password" }, status: :unprocessible_entity
+      render json: { error: "Invalid username or password" }, status: :unauthorized
     end
   end
 

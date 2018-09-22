@@ -6,11 +6,11 @@ class ApplicationController < ActionController::API
   def find_token
     authenticate_or_request_with_http_token do |token, options|
       session = Session.find_by(token: token)
-      @current_user = User.find_by(email: session.email)
-      if @current_user
+      if session
+        @current_user = User.find_by(email: session.email)
         render json: @current_user, status: :accepted
       else
-        render json: { errors: "Not Authorized" }, status: :unprocessible_entity
+        render json: { errors: "Not Authorized" }, status: :unauthorized
       end
     end
   end
