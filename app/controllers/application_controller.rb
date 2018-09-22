@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
       if @current_user
         render json: @current_user, status: :accepted
       else
-        render json: { errors: "Invalid username or password" }, status: :unprocessible_entity
+        render json: { errors: "Not Authorized" }, status: :unprocessible_entity
       end
     end
   end
