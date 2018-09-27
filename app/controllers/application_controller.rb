@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
       session = Session.find_by(token: token)
       if session
         @current_user = User.find_by(email: session.email)
-        render json: @current_user, status: :accepted
       else
         render json: { errors: "Not Authorized" }, status: :unauthorized
       end
